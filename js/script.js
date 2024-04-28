@@ -50,3 +50,19 @@ designSelect.addEventListener('change', () => {
     }
   }
 });
+
+
+/**
+ * Update total cost display based on selected activities.
+ */
+const activitiesSet = document.getElementById('activities');
+activitiesSet.addEventListener('change', () => {
+  const activitiesInputs = activitiesSet.querySelectorAll('input');
+  let total = 0;
+  for(let i = 0; i < activitiesInputs.length; i++) {
+    if (activitiesInputs[i].checked) {
+      total = total + +activitiesInputs[i].getAttribute('data-cost');
+    }
+  }
+  document.getElementById('activities-cost').innerHTML = `Total: $${total}`;
+});
