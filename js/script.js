@@ -100,3 +100,92 @@ paymentSelect.addEventListener('change', () => {
     creditCardDiv.style.display = 'none';
   }
 });
+
+
+/**
+ * Form validation
+ */
+const form = document.querySelector('form');
+const emailInput = document.getElementById('email');
+const creditcardNum = document.getElementById('cc-num');
+const creditcardZip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
+
+/**
+ * Email validator
+ */
+const emailValidator = () => {
+  const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
+  return emailIsValid;
+}
+
+/**
+ * Activities validator
+ */
+const activitiesValidator = () => {
+  const activities = activitiesSet.querySelectorAll('input');
+  let total = 0;
+  for (let i = 0; i < activities.length; i++) {
+    if (activities[i].checked) {
+      total += 1;
+    }
+  }
+  return (total > 0);
+}
+
+/**
+ * Credit card number validator
+ */
+const creditcardValidator = () => {
+  return /^\d{13,16}$/.test(creditcardNum.value);
+}
+
+/**
+ * Zipcode validator
+ */
+const zipcodeValidator = () => {
+  return /^\d{5}$/.test(creditcardZip.value);
+}
+
+/**
+ * cvv validator
+ */
+const cvvValidator = () => {
+  return /^\d{3}$/.test(cvv.value);
+}
+
+/**
+ * Validate all the required inputs on submit
+ */
+form.addEventListener('submit', e => {
+  
+  if (!nameInput.value) {
+    e.preventDefault();
+    console.log(`Name: '${nameInput.value}' is not valid`);
+  }
+
+  if (!emailValidator()){
+    e.preventDefault();
+    console.log(`Email: '${emailInput.value}' is not valid`);
+  }
+
+  if (!activitiesValidator()) {
+    e.preventDefault();
+    console.log('There are no activities selected');
+  }
+
+  if (paymentSelect.value === 'credit-card') {
+    if (!creditcardValidator()) {
+      e.preventDefault();
+      console.log(`Credit card number: '${creditcardNum.value}' is not valid`);
+    }
+    if (!zipcodeValidator()) {
+      e.preventDefault();
+      console.log(`Zipcode: '${creditcardZip.value}' is not valid`);
+    }
+    if (!cvvValidator()) {
+      e.preventDefault();
+      console.log(`cvv: '${cvv.value}' is not valid`);
+    }
+  }
+});
