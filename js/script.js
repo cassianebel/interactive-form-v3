@@ -56,8 +56,8 @@ designSelect.addEventListener('change', () => {
  * Update total cost display based on selected activities.
  */
 const activitiesSet = document.getElementById('activities');
+const activitiesInputs = activitiesSet.querySelectorAll('input');
 activitiesSet.addEventListener('change', () => {
-  const activitiesInputs = activitiesSet.querySelectorAll('input');
   let total = 0;
   for(let i = 0; i < activitiesInputs.length; i++) {
     if (activitiesInputs[i].checked) {
@@ -66,6 +66,19 @@ activitiesSet.addEventListener('change', () => {
   }
   document.getElementById('activities-cost').innerHTML = `Total: $${total}`;
 });
+
+
+/**
+ * Set the focus class on activities inputs
+ */
+for(let i = 0; i < activitiesInputs.length; i++) {
+  activitiesInputs[i].addEventListener('focus', () => {
+    activitiesInputs[i].parentElement.classList.add('focus');
+  });
+  activitiesInputs[i].addEventListener('blur', () => {
+    activitiesInputs[i].parentElement.classList.remove('focus');
+  });
+}
 
 
 /**
