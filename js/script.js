@@ -66,3 +66,37 @@ activitiesSet.addEventListener('change', () => {
   }
   document.getElementById('activities-cost').innerHTML = `Total: $${total}`;
 });
+
+
+/**
+ * Select the credit card payment option onload,
+ * and hide the bitcoin and paypal info divs.
+ */
+const paymentSelect = document.getElementById('payment');
+paymentSelect.querySelector('option[value="credit-card"]').selected = true;
+
+const creditCardDiv = document.getElementById('credit-card');
+const paypalDiv = document.getElementById('paypal');
+const bitcoinDiv = document.getElementById('bitcoin');
+
+paypalDiv.style.display = 'none';
+bitcoinDiv.style.display = 'none';
+
+/**
+ * Only display the relevant payment info based on selection.
+ */
+paymentSelect.addEventListener('change', () => {
+  if (paymentSelect.value === 'credit-card') {
+    creditCardDiv.style.display = 'block';
+    paypalDiv.style.display = 'none';
+    bitcoinDiv.style.display = 'none';
+  } else if (paymentSelect.value === 'paypal') {
+    paypalDiv.style.display = 'block';
+    bitcoinDiv.style.display = 'none';
+    creditCardDiv.style.display = 'none';
+  } else if (paymentSelect.value === 'bitcoin') {
+    bitcoinDiv.style.display = 'block';
+    paypalDiv.style.display = 'none';
+    creditCardDiv.style.display = 'none';
+  }
+});
