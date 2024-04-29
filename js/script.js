@@ -142,9 +142,9 @@ paymentSelect.addEventListener('change', () => {
  */
 const form = document.querySelector('form');
 const emailInput = document.getElementById('email');
-const creditcardNum = document.getElementById('cc-num');
-const creditcardZip = document.getElementById('zip');
-const cvv = document.getElementById('cvv');
+const creditcardInput = document.getElementById('cc-num');
+const zipcodeInput = document.getElementById('zip');
+const cvvInput = document.getElementById('cvv');
 
 /**
  * Email validator checks for email format
@@ -172,21 +172,21 @@ const activitiesValidator = () => {
  * Credit card number validator checks for 13-16 digits
  */
 const creditcardValidator = () => {
-  return /^\d{13,16}$/.test(creditcardNum.value);
+  return /^\d{13,16}$/.test(creditcardInput.value);
 }
 
 /**
  * Zipcode validator check for 5 digits
  */
 const zipcodeValidator = () => {
-  return /^\d{5}$/.test(creditcardZip.value);
+  return /^\d{5}$/.test(zipcodeInput.value);
 }
 
 /**
  * CVV validator checks for 3 digits
  */
 const cvvValidator = () => {
-  return /^\d{3}$/.test(cvv.value);
+  return /^\d{3}$/.test(cvvInput.value);
 }
 
 /**
@@ -247,26 +247,63 @@ form.addEventListener('submit', e => {
   if (paymentSelect.value === 'credit-card') {
     if (!creditcardValidator()) {
       e.preventDefault();
-      validationFail(creditcardNum);
-      console.log(`Credit card number: '${creditcardNum.value}' is not valid`);
+      validationFail(creditcardInput);
+      console.log(`Credit card number: '${creditcardInput.value}' is not valid`);
     } else {
-      validationPass(creditcardNum);
+      validationPass(creditcardInput);
     }
 
     if (!zipcodeValidator()) {
       e.preventDefault();
-      validationFail(creditcardZip);
-      console.log(`Zipcode: '${creditcardZip.value}' is not valid`);
+      validationFail(zipcodeInput);
+      console.log(`Zipcode: '${zipcodeInput.value}' is not valid`);
     } else {
-      validationPass(creditcardZip);
+      validationPass(zipcodeInput);
     }
 
     if (!cvvValidator()) {
       e.preventDefault();
-      validationFail(cvv);
-      console.log(`cvv: '${cvv.value}' is not valid`);
+      validationFail(cvvInput);
+      console.log(`cvv: '${cvvInput.value}' is not valid`);
     } else {
-      validationPass(cvv);
+      validationPass(cvvInput);
     }
+  }
+});
+
+
+/**
+ * Real-time error messaging on:
+ * email, credit card, zipcode and cvv inputs
+ */
+emailInput.addEventListener('keyup', () => {
+  if (!emailValidator()){
+    validationFail(emailInput);
+  } else {
+    validationPass(emailInput);
+  }
+});
+
+creditcardInput.addEventListener('keyup', () => {
+  if (!creditcardValidator()){
+    validationFail(creditcardInput);
+  } else {
+    validationPass(creditcardInput);
+  }
+});
+
+zipcodeInput.addEventListener('keyup', () => {
+  if (!zipcodeValidator()){
+    validationFail(zipcodeInput);
+  } else {
+    validationPass(zipcodeInput);
+  }
+});
+
+cvvInput.addEventListener('keyup', () => {
+  if (!cvvValidator()){
+    validationFail(cvvInput);
+  } else {
+    validationPass(cvvInput);
   }
 });
