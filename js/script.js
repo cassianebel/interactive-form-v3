@@ -125,7 +125,7 @@ const creditcardZip = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 
 /**
- * Email validator
+ * Email validator checks for email format
  */
 const emailValidator = () => {
   const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
@@ -133,7 +133,7 @@ const emailValidator = () => {
 }
 
 /**
- * Activities validator
+ * Activities validator checks for at least one selected activity 
  */
 const activitiesValidator = () => {
   const activities = activitiesSet.querySelectorAll('input');
@@ -147,24 +147,46 @@ const activitiesValidator = () => {
 }
 
 /**
- * Credit card number validator
+ * Credit card number validator checks for 13-16 digits
  */
 const creditcardValidator = () => {
   return /^\d{13,16}$/.test(creditcardNum.value);
 }
 
 /**
- * Zipcode validator
+ * Zipcode validator check for 5 digits
  */
 const zipcodeValidator = () => {
   return /^\d{5}$/.test(creditcardZip.value);
 }
 
 /**
- * cvv validator
+ * CVV validator checks for 3 digits
  */
 const cvvValidator = () => {
   return /^\d{3}$/.test(cvv.value);
+}
+
+/**
+ * Validation Pass handler:
+ * swaps the 'not-valid' class for 'valid' on the parent of the element,
+ * and hides the 'hint'
+ */
+const validationPass = (element) => {
+  element.parentElement.classList.add('valid');
+  element.parentElement.classList.remove('not-valid');
+  element.parentElement.querySelector('.hint').style.display = 'none';
+}
+
+/**
+ * Validation Fail handler:
+ * swaps the 'valid' class for 'not-valid' on the parent of the element,
+ * and displays the 'hint'
+ */
+const validationFail = (element) => {
+  element.parentElement.classList.add('not-valid');
+  element.parentElement.classList.remove('valid');
+  element.parentElement.querySelector('.hint').style.display = 'block';
 }
 
 /**
@@ -174,31 +196,55 @@ form.addEventListener('submit', e => {
   
   if (!nameInput.value) {
     e.preventDefault();
+    validationFail(nameInput);
     console.log(`Name: '${nameInput.value}' is not valid`);
+  } else {
+    validationPass(nameInput);
   }
 
   if (!emailValidator()){
     e.preventDefault();
+    validationFail(emailInput);
     console.log(`Email: '${emailInput.value}' is not valid`);
+  } else {
+    validationPass(emailInput);
   }
 
   if (!activitiesValidator()) {
     e.preventDefault();
+    activitiesSet.classList.add('not-valid');
+    activitiesSet.classList.remove('valid');
+    activitiesSet.querySelector('.hint').style.display = 'block';
     console.log('There are no activities selected');
+  } else {
+    activitiesSet.classList.add('valid');
+    activitiesSet.classList.remove('not-valid');
+    activitiesSet.querySelector('.hint').style.display = 'none';
   }
 
   if (paymentSelect.value === 'credit-card') {
     if (!creditcardValidator()) {
       e.preventDefault();
+      validationFail(creditcardNum);
       console.log(`Credit card number: '${creditcardNum.value}' is not valid`);
+    } else {
+      validationPass(creditcardNum);
     }
+
     if (!zipcodeValidator()) {
       e.preventDefault();
+      validationFail(creditcardZip);
       console.log(`Zipcode: '${creditcardZip.value}' is not valid`);
+    } else {
+      validationPass(creditcardZip);
     }
+
     if (!cvvValidator()) {
       e.preventDefault();
+      validationFail(cvv);
       console.log(`cvv: '${cvv.value}' is not valid`);
+    } else {
+      validationPass(cvv);
     }
   }
 });
