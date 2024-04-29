@@ -150,6 +150,15 @@ const cvvInput = document.getElementById('cvv');
  * Email validator checks for email format
  */
 const emailValidator = () => {
+  const emailHint = document.getElementById('email-hint');
+  const emailMissingAt = /^[^@]+[^@.]+\.[a-z]+$/i.test(emailInput.value);
+  if (emailMissingAt) {
+    emailHint.innerHTML = `Your email is missing the '@'`;
+  }
+  const emailMissingPeriod = /^[^@]+@[^@.]+[a-z]+$/i.test(emailInput.value);
+  if (emailMissingPeriod) {
+    emailHint.innerHTML = `Your email is missing the '.'`;
+  }
   const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
   return emailIsValid;
 }
@@ -219,7 +228,6 @@ form.addEventListener('submit', e => {
   if (!nameInput.value) {
     e.preventDefault();
     validationFail(nameInput);
-    console.log(`Name: '${nameInput.value}' is not valid`);
   } else {
     validationPass(nameInput);
   }
@@ -227,7 +235,6 @@ form.addEventListener('submit', e => {
   if (!emailValidator()){
     e.preventDefault();
     validationFail(emailInput);
-    console.log(`Email: '${emailInput.value}' is not valid`);
   } else {
     validationPass(emailInput);
   }
@@ -237,7 +244,6 @@ form.addEventListener('submit', e => {
     activitiesSet.classList.add('not-valid');
     activitiesSet.classList.remove('valid');
     activitiesSet.querySelector('.hint').style.display = 'block';
-    console.log('There are no activities selected');
   } else {
     activitiesSet.classList.add('valid');
     activitiesSet.classList.remove('not-valid');
@@ -248,7 +254,6 @@ form.addEventListener('submit', e => {
     if (!creditcardValidator()) {
       e.preventDefault();
       validationFail(creditcardInput);
-      console.log(`Credit card number: '${creditcardInput.value}' is not valid`);
     } else {
       validationPass(creditcardInput);
     }
@@ -256,7 +261,6 @@ form.addEventListener('submit', e => {
     if (!zipcodeValidator()) {
       e.preventDefault();
       validationFail(zipcodeInput);
-      console.log(`Zipcode: '${zipcodeInput.value}' is not valid`);
     } else {
       validationPass(zipcodeInput);
     }
@@ -264,7 +268,6 @@ form.addEventListener('submit', e => {
     if (!cvvValidator()) {
       e.preventDefault();
       validationFail(cvvInput);
-      console.log(`cvv: '${cvvInput.value}' is not valid`);
     } else {
       validationPass(cvvInput);
     }
