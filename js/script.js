@@ -53,11 +53,17 @@ designSelect.addEventListener('change', () => {
 
 
 /**
+ * Activities
  * Update total cost display based on selected activities.
+ * When an activity is selected - disable other activities that 
+ * are scheduled for the same time.
  */
 const activitiesSet = document.getElementById('activities');
 const activitiesInputs = activitiesSet.querySelectorAll('input');
-activitiesSet.addEventListener('change', () => {
+
+activitiesSet.addEventListener('change', (e) => {
+
+  //Update total cost display based on selected activities.
   let total = 0;
   for(let i = 0; i < activitiesInputs.length; i++) {
     if (activitiesInputs[i].checked) {
@@ -65,6 +71,22 @@ activitiesSet.addEventListener('change', () => {
     }
   }
   document.getElementById('activities-cost').innerHTML = `Total: $${total}`;
+
+  //check for conflicting activities based on time of selected activity
+  let clicked = e.target;
+  let clickedTime = clicked.getAttribute('data-day-and-time');
+  for (let i = 0; i < activitiesInputs.length; i++) {
+    let activityTime = activitiesInputs[i].getAttribute('data-day-and-time');
+    if (clickedTime === activityTime && clicked !== activitiesInputs[i]) {
+      if (clicked.checked) {
+        activitiesInputs[i].disabled = true;
+        activitiesInputs[i].parentElement.classList.add('disabled');
+      } else {
+        activitiesInputs[i].disabled = false;
+        activitiesInputs[i].parentElement.classList.remove('disabled');
+      }
+    }
+  }
 });
 
 
