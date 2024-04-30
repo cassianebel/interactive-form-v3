@@ -280,15 +280,27 @@ form.addEventListener('submit', e => {
  * email, credit card, zipcode and cvv inputs
  */
 emailInput.addEventListener('keyup', () => {
-  if (!emailValidator()){
+  if (!emailValidator()) {
     validationFail(emailInput);
   } else {
     validationPass(emailInput);
   }
 });
 
+activitiesSet.addEventListener('change', () => {
+  if (!activitiesValidator()) {
+    activitiesSet.classList.add('not-valid');
+    activitiesSet.classList.remove('valid');
+    activitiesSet.querySelector('.hint').style.display = 'block';
+  } else {
+    activitiesSet.classList.add('valid');
+    activitiesSet.classList.remove('not-valid');
+    activitiesSet.querySelector('.hint').style.display = 'none';
+  }
+});
+
 creditcardInput.addEventListener('keyup', () => {
-  if (!creditcardValidator()){
+  if (!creditcardValidator()) {
     validationFail(creditcardInput);
   } else {
     validationPass(creditcardInput);
@@ -296,7 +308,7 @@ creditcardInput.addEventListener('keyup', () => {
 });
 
 zipcodeInput.addEventListener('keyup', () => {
-  if (!zipcodeValidator()){
+  if (!zipcodeValidator()) {
     validationFail(zipcodeInput);
   } else {
     validationPass(zipcodeInput);
@@ -304,7 +316,7 @@ zipcodeInput.addEventListener('keyup', () => {
 });
 
 cvvInput.addEventListener('keyup', () => {
-  if (!cvvValidator()){
+  if (!cvvValidator()) {
     validationFail(cvvInput);
   } else {
     validationPass(cvvInput);
